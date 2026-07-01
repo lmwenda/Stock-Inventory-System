@@ -1,0 +1,7 @@
+- order-service
+- inventory-service
+- payment-service
+- notification-service
+- mysql
+- rabbitmq 
+- redis
