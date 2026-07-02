@@ -2,7 +2,8 @@
 
 ### User Table
     - User ID (Primary Key)
-    - Username
+    - First Name
+    - Last Name
     - PhoneNumber
     - Email
     - Password 

@@ -1,18 +1,14 @@
-import CreateUserDTO from "../utils/CreateUserDTO";
+import { Request, Response } from "express";
+import UserServices from "../services/UserServices";
+import { CreateUserValidation, TCreateUserValidation } from "../validation/user.schema";
 
-class UserController {
-    constructor(){
-    
-    }
+class UserController{
+    constructor(private readonly userService: UserServices){}
 
-    public async createUser(): Promise<CreateUserDTO> {
-        const CreateUser: CreateUserDTO = {
-            username: "hello"
-        }
-
-
-        return CreateUser;
-    }
+    public async createUser(req: Request, res: Response) {
+        const body: TCreateUserValidation = CreateUserValidation.parse(req.body);
+        await this.userService.createUser(body)       
+   }
 }
 
 export default UserController;
