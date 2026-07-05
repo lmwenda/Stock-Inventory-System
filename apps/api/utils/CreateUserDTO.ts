@@ -1,6 +1,7 @@
-export default interface CreateUserDTO {
-    user_id: Number,
-    username: String
-    phone_number: String,
-    email: String
+export default interface UserDTO {
+    UserID: Number,
+    FirstName: String,
+    LastName: String,
+    PhoneNumber: String,
+    Email: String
 }
