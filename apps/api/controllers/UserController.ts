@@ -27,6 +27,18 @@ class UserController{
                res.json({ type: "Success", payload: { token, message: "Sucessfully Logged in..."}})
           }
    }
+
+   public async getUserStock(req: Request, res: Response) {
+     const token: string = req.body.token;
+     
+     const stock = await this.userService.getStock(token);
+
+     if(stock == null){
+          res.json({ type: "Fail", payload: { message: "Invalid Token"}});
+     }else {
+          res.json({ type:" Success", payload: { stock, message: "Valid Token"} })
+     }
+   }
 }
 
 export default UserController;

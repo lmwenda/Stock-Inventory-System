@@ -1,10 +1,8 @@
 import * as bcrypt from "bcrypt";
 import { TCreateUserValidation, TLoginUserValidation } from "../validation/user.schema";
 import UserRepository from "../repositories/UserRepository";
-import { IGetUser, IUser } from "../utils/exportedInterfaces";
-import UserDTO from "../utils/CreateUserDTO";
+import { IGetUser, Stock, IUser, UserJWTPayload } from "../utils/exportedInterfaces";
 import * as jwt from "jsonwebtoken";
-import { Signature } from "typescript";
 
 
 class UserServices {
@@ -44,7 +42,6 @@ class UserServices {
         const validPassword = bcrypt.compare(body.Password, hashedPassword);
 
         const jwtToken: string = process.env.JWT_TOKEN as string;
-
         // send jwt token
 
         if (body.Email == (await user).Email && await validPassword)
@@ -58,6 +55,19 @@ class UserServices {
             return token;
         } else {
             return false;
+        }
+    }
+
+    public async getStock(token: string): Promise<Stock[] | null>{
+        const jwtToken: string = process.env.JWT_TOKEN as string;
+        const verifyToken = jwt.verify(token, jwtToken) as UserJWTPayload;
+
+        if(verifyToken)
+        {
+            const stock: Stock[] = await this.userRepository.getStock(verifyToken.id);
+            return stock;
+        } else {
+            return null;
         }
     }
 

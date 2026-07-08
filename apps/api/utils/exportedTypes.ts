@@ -7,5 +7,4 @@ type TUser = {
     Password: string 
 }
 
-
 export { TUser }

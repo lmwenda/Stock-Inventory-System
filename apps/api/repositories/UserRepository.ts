@@ -1,7 +1,7 @@
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import pool from "../database/connection";
 import UserDTO from "../utils/CreateUserDTO";
-import { ICreateUser, IGetUser, IUser, IUserQuery } from "../utils/exportedInterfaces";
+import { ICreateUser, IGetUser, IUser, IUserQuery, Stock } from "../utils/exportedInterfaces";
 import { TCreateUserValidation } from "../validation/user.schema";
 
 class UserRepository {
@@ -97,6 +97,19 @@ class UserRepository {
             }
         }
         throw new Error("Either UserID or email must be provided.");
+    }
+
+    public async getStock(userID: number): Promise<Stock[]> { 
+        const [ result ] = await pool.execute<Stock[]>(
+            "SELECT * FROM Stock WHERE UserID=?",
+            [
+                userID
+            ]
+        );
+
+        console.log(result);
+
+        return result;
     }
 }
 

@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken"
 import { RowDataPacket } from "mysql2"
 
 interface ICreateUser {
@@ -31,5 +32,33 @@ interface IUserQuery extends RowDataPacket {
     Email: string,
     Password: string | Promise<string>
 }
+// Order ID (Primary Key)
+//     - Product ID (Foreign Key)
+//     - Product Name
+//     - UserID (Foreign Key) // Who this Order is connected to 
+//     - DeliveryDate
+//     - OrderDate 
+//     - Product Quantity
+//     - Status // OrderCreated, OrderFailed, etc
 
-export { IUser, IUserQuery, ICreateUser, IGetUser}
+
+interface Product {
+    ProductID: number,
+    ProductName: string,
+    DeliveryDate: Date,
+    OrderDate: Date
+}
+
+interface Stock extends RowDataPacket{
+    UserID: number,
+    ProductID: number,
+    Quantity: number
+}
+
+interface UserJWTPayload extends JwtPayload{
+    id: number,
+    iat: number,
+    exp: number
+}
+
+export { UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser}
