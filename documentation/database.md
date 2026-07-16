@@ -7,35 +7,28 @@
     - PhoneNumber
     - Email
     - Password 
-    - Orders[] (Foreign Key)
-    - Inventory[] 
-    - Transactions[] ( Foreign Key )
 
 ### Product Table
     - Product ID (Primary Key)
+    - SKU
     - Product Name
+    - Product Description
+    - Product Category
     - Product Price 
+    - Product StockCount
+    - Product CreatedAt
+    - Product UpdatedAt
     - Product Reviews 
     - Product Image
 
-### Order Table
-    - Order ID (Primary Key)
-    - Product ID (Foreign Key)
-    - Product Name
-    - UserID (Foreign Key) // Who this Order is connected to 
-    - DeliveryDate
-    - OrderDate 
-    - Product Quantity
-    - Status // OrderCreated, OrderFailed, etc
-
 ### Transaction Table
  - Transacation ID (Primary Key)
- - Order ID (Foreign Key)
  - User ID (Foreign Key)
+ - Orders[] (Multiple Product ID's)
  - Date 
  - Total // Price
  - Status // Completed, Failed, Pending, etc
 
 ### Inventory Table
     - UserID
-    - Orders[]
+    - ProductID
