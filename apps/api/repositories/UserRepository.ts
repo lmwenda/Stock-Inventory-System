@@ -1,6 +1,6 @@
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import pool from "../database/connection";
-import UserDTO from "../utils/CreateUserDTO";
+import UserDTO from "../utils/UserDTO";
 import { ICreateUser, IGetUser, IUser, IUserQuery, Stock } from "../utils/exportedInterfaces";
 import { TCreateUserValidation } from "../validation/user.schema";
 
@@ -110,6 +110,27 @@ class UserRepository {
         console.log(result);
 
         return result;
+    }
+
+    public async isAdmin(userID: number): Promise<boolean> 
+    {
+        const [ result ] = await pool.execute
+        (
+            "SELECT * From Admin WHERE UserID=?",
+            [
+                userID
+            ]
+        );
+
+        if(result)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+
     }
 }
 

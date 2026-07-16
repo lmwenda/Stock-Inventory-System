@@ -43,10 +43,25 @@ interface IUserQuery extends RowDataPacket {
 
 
 interface Product {
-    ProductID: number,
+    ProductID?: number,
+    SKU: string,
     ProductName: string,
-    DeliveryDate: Date,
-    OrderDate: Date
+    Description: string,
+    Category: string,
+    Price: number,
+    Image?: string,
+    StockCount: number,
+}
+
+interface SqlProduct extends RowDataPacket{
+    ProductID: number,
+    SKU: string,
+    ProductName: string,
+    Description: string,
+    Category: string,
+    Price: number,
+    Image: string,
+    StockCount: number,
 }
 
 interface Stock extends RowDataPacket{
@@ -61,4 +76,4 @@ interface UserJWTPayload extends JwtPayload{
     exp: number
 }
 
-export { UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser}
+export { SqlProduct, UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser }
