@@ -1,78 +1,130 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { redirect } from "next/navigation";
+import GetProducts from "./GetProducts";
+import Link from "next/link";
+
+type Stock = {
+    StockID: number;
+    ProductName: string;
+    Category: string;
+    Price: number;
+    Quantity: number;
+    Image: string;
+};
+
+type TProduct = {
+    ProductID: number,
+    SKU: string,
+    ProductName: string,
+    Description: string,
+    Category: string,
+    Price: number,
+    StockCount: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    Image: string
+}
 
 export default function Home() {
+  const [products, setProducts] = React.useState<TProduct[]>([]);
+
   React.useEffect(() => {
-    const token: string | null = localStorage.getItem("token");
+      const token: string | null = localStorage.getItem("token");
 
-    if(!token)
-    {
-      redirect("/login");
-    }
-  }, [])
+      if(!token)
+      {
+        redirect("/login");
+      }
 
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Hector was running 3 Honda Civics
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div> 
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      async function retrieveProducts()
+      {
+        const data = await GetProducts(token);
+        console.log(data);
+
+        setProducts(data.payload.products);
+      }
+
+      retrieveProducts();
+     
+  }, []);
+
+    return (
+        <main className="min-h-screen bg-zinc-950 text-white p-8">
+
+            <h1 className="mb-2 text-4xl font-bold text-orange-500">
+                Browse Products
+            </h1>
+
+            <p className="mb-8 text-zinc-400">
+                Browse our latest stock.
+            </p>
+
+            <input
+                type="text"
+                placeholder="Search products..."
+                className="mb-8 w-full rounded-lg border border-orange-500 bg-zinc-900 p-3 outline-none focus:ring-2 focus:ring-orange-500"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+                {products.map((product) => (
+
+                    <div
+                        key={product.ProductID}
+                        className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg transition hover:scale-105 hover:border-orange-500"
+                    >
+
+                        <img
+                            src={product.Image}
+                            alt={product.ProductName}
+                            className="h-48 w-full object-cover"
+                        />
+
+                        <div className="space-y-2 p-5">
+
+                            <h2 className="text-xl font-bold">
+                                {product.ProductName}
+                            </h2>
+
+                            <p className="text-sm text-zinc-400">
+                                {product.Category}
+                                <br />
+                                {product.SKU}
+                            </p>
+
+                            <p className="text-2xl font-bold text-orange-500">
+                                £{product.Price.toFixed(2)}
+                            </p>
+
+                            <p
+                                className={
+                                    product.StockCount > 0
+                                        ? "text-green-400"
+                                        : "text-red-400"
+                                }
+                            >
+                                {product.StockCount > 0
+                                    ? `${product.StockCount} in stock`
+                                    : "Out of stock"}
+                            </p>
+
+                            <Link href={`/products/${product.ProductID}`}>
+                              <button className="mt-4 w-full rounded-lg bg-orange-500 py-2 font-semibold text-black transition hover:bg-orange-400">
+                                  View Product
+                              </button>
+                            </Link>
+
+                        </div>
+
+                    </div>
+
+                ))}
+
+            </div>
+
+        </main>
+    );
+
 }

@@ -29,7 +29,7 @@ export default function LoginForm()
         if(request.token.length >= 1)
         {
             localStorage.setItem("token", request.token);
-            redirect("/");
+            window.location.href = "/";
         }
         
     }
