@@ -1,4 +1,5 @@
 import express, { Application } from "express";
+import cors from "cors";
 import "./database/connection";
 import { port } from "./utils/exportedVariables";
 import UserRoute from "./routes/UserRoutes";
@@ -13,6 +14,10 @@ import ProductRepository from "./repositories/ProductRepository";
 const app: Application = express();
 
 // Middlewares & Dependency Injection 
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

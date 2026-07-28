@@ -7,12 +7,13 @@
   "author": "lmwenda",
   "license": "MIT",
   "scripts": {
-    "start": "node ./build/index.js",
+    "start": "node ./build/app.js",
     "build": "tsc -p .",
     "dev": "nodemon ./app.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "express": "~5.2.1"
   },
@@ -20,6 +21,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.3.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.22.5",
