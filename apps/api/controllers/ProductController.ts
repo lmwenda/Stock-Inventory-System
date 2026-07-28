@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import ProductServices from "../services/ProductServices";
-import { Product } from "../utils/exportedInterfaces";
+import { GProduct, Product } from "../utils/exportedInterfaces";
 
 class ProductController { 
     constructor(private readonly productService: ProductServices){}
@@ -56,11 +56,11 @@ class ProductController {
         const { id } = req.params;
         const productID: number = Number(id);
 
-        const _product: Promise<Product | null>  = this.productService.getProductServices(token, productID);
+        const _product: Promise<GProduct | null>  = this.productService.getProductServices(token, productID);
 
         if(_product != null)
         {
-            const product: Product = await _product as Product;
+            const product: GProduct = await _product as GProduct;
 
             res.json({ type: "Success", payload: { product, message: "Retrieved Product from Database..." }})
         }

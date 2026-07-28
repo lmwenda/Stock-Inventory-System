@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { Product, SqlProduct, UserJWTPayload } from "../utils/exportedInterfaces";
+import { GProduct, Product, SqlProduct, UserJWTPayload } from "../utils/exportedInterfaces";
 import ProductRepository from "../repositories/ProductRepository";
 import UserRepository from "../repositories/UserRepository";
 
@@ -86,14 +86,14 @@ class ProductServices {
         }
     }
 
-    public async getProductServices(token: string, productID: number): Promise<Product | null>
+    public async getProductServices(token: string, productID: number): Promise<GProduct | null>
     {
         const jwtToken = process.env.JWT_TOKEN as string;
         const verifiedToken = jwt.verify(token, jwtToken) as UserJWTPayload;
 
         if(verifiedToken.id)
         {
-            const product: Promise<Product> =  this.productRepository.get(productID);
+            const product: Promise<GProduct> =  this.productRepository.get(productID);
 
             return product;
         } 

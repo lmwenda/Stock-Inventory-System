@@ -53,6 +53,19 @@ interface Product {
     StockCount: number,
 }
 
+interface GProduct {
+    ProductID?: number,
+    SKU: string,
+    ProductName: string,
+    Description: string,
+    Category: string,
+    Price: number,
+    Image?: string,
+    StockCount: number,
+    CreatedAt: string,
+    UpdatedAt: string
+}
+
 interface SqlProduct extends RowDataPacket{
     ProductID: number,
     SKU: string,
@@ -62,6 +75,19 @@ interface SqlProduct extends RowDataPacket{
     Price: number,
     Image: string,
     StockCount: number,
+}
+
+interface GSqlProduct extends RowDataPacket {
+    ProductID?: number,
+    SKU: string,
+    ProductName: string,
+    Description: string,
+    Category: string,
+    Price: number,
+    Image?: string,
+    StockCount: number,
+    CreatedAt: string,
+    UpdatedAt: string
 }
 
 interface Stock extends RowDataPacket{
@@ -76,4 +102,4 @@ interface UserJWTPayload extends JwtPayload{
     exp: number
 }
 
-export { SqlProduct, UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser }
+export { SqlProduct, GProduct, GSqlProduct, UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser }

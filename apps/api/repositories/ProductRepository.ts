@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
 import pool from "../database/connection";
-import { Product, SqlProduct } from "../utils/exportedInterfaces";
+import { GProduct, GSqlProduct, Product, SqlProduct } from "../utils/exportedInterfaces";
 import { parse } from "dotenv";
 
 class ProductRepository { 
@@ -13,9 +13,9 @@ class ProductRepository {
         return result;
     }
 
-    public async get(productID: number): Promise<Product>
+    public async get(productID: number): Promise<GProduct>
     {
-        const [ result ] = await pool.execute<SqlProduct[]>(
+        const [ result ] = await pool.execute<GSqlProduct[]>(
             "SELECT * FROM PRODUCT WHERE ProductID=?",
             [
                 productID
@@ -37,7 +37,9 @@ class ProductRepository {
             Category: productRow.Category,
             Price: productRow.price,
             Image: productRow.Image,
-            StockCount: productRow.StockCount
+            StockCount: productRow.StockCount,
+            CreatedAt: productRow.CreatedAt,
+            UpdatedAt: productRow.UpdatedAt
         };
     }
 

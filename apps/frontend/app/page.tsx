@@ -5,15 +5,6 @@ import { redirect } from "next/navigation";
 import GetProducts from "./GetProducts";
 import Link from "next/link";
 
-type Stock = {
-    StockID: number;
-    ProductName: string;
-    Category: string;
-    Price: number;
-    Quantity: number;
-    Image: string;
-};
-
 type TProduct = {
     ProductID: number,
     SKU: string,
