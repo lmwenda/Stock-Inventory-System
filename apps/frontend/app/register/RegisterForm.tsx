@@ -3,6 +3,7 @@
 import React from "react";
 import RegisterUser from "./RegisterUser";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterForm()
 {
@@ -59,41 +60,105 @@ export default function RegisterForm()
         }
     }
 
-    return(
-        <div className="m-3 flex flex-col space-y-3 border border-black rounded-lg">
-            <div className="m-3 flex justify-center">
-                <h1 className="font-bold">Register</h1>
+    return (
+        <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
+            <div className="m-3 w-full max-w-md rounded-2xl border border-orange-500 bg-zinc-900 p-8 shadow-xl">
+
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl font-bold text-orange-500">
+                        Create Account
+                    </h1>
+
+                    <p className="mt-2 text-zinc-400">
+                        Register to access the inventory system
+                    </p>
+                </div>
+
+                {msg && (
+                    <div className="mb-6 rounded-lg border border-orange-500 bg-orange-500/10 p-3 text-center text-orange-400">
+                        {msg}
+                    </div>
+                )}
+
+                <div className="space-y-5">
+
+                    <div className="flex flex-col">
+                        <label className="mb-2 font-medium text-white">
+                            First Name
+                        </label>
+
+                        <input
+                            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                            onChange={firstNameHandler}
+                            type="text"
+                            placeholder="John"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="mb-2 font-medium text-white">
+                            Last Name
+                        </label>
+
+                        <input
+                            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                            onChange={lastNameHandler}
+                            type="text"
+                            placeholder="Smith"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="mb-2 font-medium text-white">
+                            Phone Number
+                        </label>
+
+                        <input
+                            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                            onChange={phoneNumberHandler}
+                            type="text"
+                            placeholder="07123 456789"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="mb-2 font-medium text-white">
+                            Email
+                        </label>
+
+                        <input
+                            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                            onChange={emailHandler}
+                            type="email"
+                            placeholder="john@example.com"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="mb-2 font-medium text-white">
+                            Password
+                        </label>
+
+                        <input
+                            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                            onChange={passwordHandler}
+                            type="password"
+                            placeholder="••••••••"
+                        />
+                    </div>
+
+                    <button
+                        className="mt-4 w-full rounded-lg bg-orange-500 py-3 text-lg font-semibold text-black transition hover:bg-orange-400"
+                        onClick={submitForm}
+                    >
+                        Register
+                    </button>
+
+                    <Link className="text-orange-500" href="/login">Already got an account? Login</Link>
+
+                </div>
+
             </div>
-
-            <h2>{msg}</h2>
-
-
-            <div className="m-3 flex flex-col">
-                <label>First Name</label>
-                <input className="border border-gray-500 rounded-md" onChange={firstNameHandler} type="text" />
-            </div>
-
-            <div className="m-3 flex flex-col">
-                <label>Last Name</label>
-                <input className="border border-gray-500 rounded-md" onChange={lastNameHandler} type="text" />
-            </div>
-
-            <div className="m-3 flex flex-col">
-                <label>Phone Number</label>
-                <input className="border border-gray-500 rounded-md" onChange={phoneNumberHandler} type="text" />
-            </div>
-
-            <div className="m-3 flex flex-col">
-                <label>Email </label>
-                <input className="border border-gray-500 rounded-md" onChange={emailHandler} type="email" />
-            </div>
-
-            <div className="m-3 flex flex-col">
-                <label>Password</label>
-                <input className="border border-gray-500 rounded-md"onChange={passwordHandler} type="password" />
-            </div>
-
-            <button className="m-3 h-10 border border-black rounded-md" onClick={submitForm}>Login</button>
         </div>
     );
 }
