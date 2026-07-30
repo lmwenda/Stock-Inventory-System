@@ -7,6 +7,7 @@
     - PhoneNumber
     - Email
     - Password 
+    - IsEmailVerified (NEEDS TO BE ADDED)
 
 ### Product Table
     - Product ID (Primary Key)

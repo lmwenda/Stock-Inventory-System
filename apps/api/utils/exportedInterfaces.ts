@@ -102,4 +102,25 @@ interface UserJWTPayload extends JwtPayload{
     exp: number
 }
 
-export { SqlProduct, GProduct, GSqlProduct, UserJWTPayload, Stock, Product, IUser, IUserQuery, ICreateUser, IGetUser }
+interface Transaction 
+{
+    TransactionID: string,
+    UserID: number,
+    Amount: number,
+    Currency: string,
+    status: string 
+}
+
+export { 
+    Transaction,
+    SqlProduct, 
+    GProduct, 
+    GSqlProduct, 
+    UserJWTPayload, 
+    Stock, 
+    Product, 
+    IUser, 
+    IUserQuery, 
+    ICreateUser, 
+    IGetUser 
+}

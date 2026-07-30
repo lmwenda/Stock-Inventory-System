@@ -1,5 +1,13 @@
 # Events
 
+## User Events
+
+### User Created
+
+### User Logged In
+
+### User Logged out
+
 ## Order Events
 
 ### Order Created 
@@ -18,6 +26,7 @@ Producer:
 
 Consumer:
     - Inventory Service 
+
 ### Order Deleted
 
 Producer:

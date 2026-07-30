@@ -6,9 +6,7 @@ POST /user/create
 
 GET /user/:id
 
-PUT /user/update/:id
-
-DELETE /user/delete/:id
+POST /user/login
 
 ### Order Endpoints
 
@@ -21,5 +19,13 @@ PUT /order/update/:id
 DELETE /order/delete/:id
 
 
-### Transaction Endpoints
+### Product Endpoints
+
+POST /products/get/all
+
+POST /products/get/:id
+
+POST /products/add
+
+POST /products/update/database
 

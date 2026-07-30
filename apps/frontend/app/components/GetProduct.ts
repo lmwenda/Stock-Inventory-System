@@ -23,6 +23,7 @@ const GetProduct = async(id: string, token: string | null): Promise<TProduct> =>
     const data = await response.json();
     console.log(data);
 
+    console.log(data.payload.product);
     return data.payload.product;
 };
 

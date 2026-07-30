@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { use, useEffect, useState } from 'react'
-import GetProduct from './GetProduct';
+import GetProduct from '@/app/components/GetProduct';
 import { redirect } from 'next/navigation';
  
 type TProduct = {

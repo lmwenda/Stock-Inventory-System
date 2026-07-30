@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/stripe": "^8.0.416",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.3.0",
     "cors": "^2.8.6",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.22.5",
     "nodemon": "^3.1.14",
+    "stripe": "^22.4.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",

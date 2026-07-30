@@ -29,13 +29,15 @@ class ProductRepository {
             throw new Error(`Product doesn't exist with the ID: ${productID}`);
         }
 
+        console.log("Price: £", productRow.Price);
+
         return {
             SKU: productRow.SKU,
             ProductID: productRow.ProductID,
             ProductName: productRow.ProductName,
             Description: productRow.Description,
             Category: productRow.Category,
-            Price: productRow.price,
+            Price: productRow.Price,
             Image: productRow.Image,
             StockCount: productRow.StockCount,
             CreatedAt: productRow.CreatedAt,
