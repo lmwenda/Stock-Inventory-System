@@ -130,7 +130,24 @@ class UserRepository {
         {
             return false;
         }
+    }
 
+    public async deleteUser(userID: number): Promise<boolean>
+    {
+        const [ result ] = await pool.execute(
+            "DELETE FROM User WHERE UserID=?",
+            [
+                userID
+            ]
+        );
+
+        if(result)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 

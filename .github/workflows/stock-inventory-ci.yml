@@ -1,0 +1,70 @@
+name: Stock Inventory CI
+
+on:
+  push:
+    branches:
+      - master 
+      - develop
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/api/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/frontend/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker containers
+        run: docker compose -f apps/docker-compose.yml build
+
+      - name: Start containers
+        run: docker compose -f apps/docker-compose.yml up -d
+
+      - name: Check containers
+        run: docker ps
+
+      - name: Stop containers
+        if: always()
+        run: docker compose -f apps/docker-compose.yml down

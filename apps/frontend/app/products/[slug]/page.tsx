@@ -130,7 +130,9 @@ export default function BlogPostPage({params}: { params: Promise<{ slug: string 
                         <div className="flex gap-4">
 
                             <button className="flex-1 rounded-xl bg-orange-500 py-4 text-lg font-bold text-black transition hover:bg-orange-400">
-                                Add to Order
+                                <Link href={`/payments/${product?.ProductID}`}>
+                                    Add to Order
+                                </Link>
                             </button>
 
                             <button className="rounded-xl border border-orange-500 px-8 font-semibold text-orange-500 transition hover:bg-orange-500 hover:text-black">

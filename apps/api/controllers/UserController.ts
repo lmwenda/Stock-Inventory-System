@@ -7,9 +7,13 @@ class UserController{
     constructor(private readonly userService: UserServices){}
 
     public async createUser(req: Request, res: Response) {
-          // console.log(req.body);
-          const body: TCreateUserValidation = CreateUserValidation.parse(req.body);
-          const user = await this.userService.createUser(body)       
+          console.log(req.body);
+
+          const result = CreateUserValidation.safeParse(req.body);
+          if(!result.success) return res.status(400).json({ type: "Fail", message: result.error.issues[0].message });
+
+          const body: TCreateUserValidation = result.data as TCreateUserValidation;
+          const user = await this.userService.createUser(body);       
 
           if (user == null) {
                console.log("account already exists...")
@@ -25,12 +29,11 @@ class UserController{
           console.log(req.body);
 
           const result = LoginUserValidation.safeParse(req.body);
-          console.log(result);
 
           if(!result.success)
           {
                console.log(result.error.issues[0].message)
-               res.json({ type: "Fail", payload: { message: result.error.issues[0].message}});
+               res.status(400).json({ type: "Fail", payload: { message: result.error.issues[0].message}});
                return 0;
           }
           else {
@@ -45,8 +48,19 @@ class UserController{
                res.json({ type: "Fail", payload: { token: null, message: "Wrong Credentials..." }})
           } 
           else {
-               res.json({ type: "Success", payload: { token, message: "Sucessfully Logged in..."}})
+               res.status(200).json({ type: "Success", payload: { token, message: "Sucessfully Logged in..."}})
           }
+   }
+
+   public async deleteUser(req: Request, res: Response)
+   {
+     const token: string = req.body.token;
+     
+     const result = await this.userService.deleteUser(token);
+
+     if(!result) return res.status(400).json({ type: "Fail", payload: { message: "Unable to delete User..." }});
+
+     res.status(200).json({ type: "Success", payload: { message: "Deleted User... "}});
    }
 
    public async getUserStock(req: Request, res: Response) {

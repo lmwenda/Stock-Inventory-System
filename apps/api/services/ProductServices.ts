@@ -101,6 +101,11 @@ class ProductServices {
             return null;
         }
     }
+
+    public async updateProductStockCount(quantity: number, productID: number)
+    {
+        
+    }
 }
 
 export default ProductServices;

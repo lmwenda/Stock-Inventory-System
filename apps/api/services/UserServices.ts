@@ -6,9 +6,11 @@ import * as jwt from "jsonwebtoken";
 
 
 class UserServices {
-    // nothing from express exists in here
+    private secretT: string;
 
-    constructor(private readonly userRepository: UserRepository){}
+    constructor(private readonly userRepository: UserRepository){
+        this.secretT = process.env.JWT_TOKEN as string;
+    }
 
     public async createUser(body: TCreateUserValidation) {
         // the main logic  
@@ -56,6 +58,17 @@ class UserServices {
         } else {
             return false;
         }
+    }
+
+    public async deleteUser(token: string): Promise<boolean> 
+    {
+        const { id } = jwt.verify(token, this.secretT) as UserJWTPayload;
+
+        const result = await this.userRepository.deleteUser(id);
+
+        if(!result) return false;
+        
+        return true;
     }
 
     public async getStock(token: string): Promise<Stock[] | null>{

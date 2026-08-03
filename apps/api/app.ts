@@ -15,7 +15,7 @@ import PaymentServices from "./services/PaymentServices";
 import PaymentController from "./controllers/PaymentController";
 import PaymentRepository from "./repositories/PaymentRepository";
 
-const app: Application = express();
+export const app: Application = express();
 
 // Middlewares & Dependency Injection 
 app.use(cors({

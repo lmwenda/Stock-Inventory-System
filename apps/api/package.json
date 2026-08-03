@@ -9,13 +9,19 @@
   "scripts": {
     "start": "node ./build/app.js",
     "build": "tsc -p .",
+    "test": "jest",
     "dev": "nodemon ./app.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "express": "~5.2.1"
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^7.2.1",
+    "express": "~5.2.1",
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.12"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
