@@ -1,12 +1,8 @@
 services:
-  frontend:
+  webapp:
     build: ./frontend
 
-  webapp:
-    environment:
-      DEBUG: "true"
-
-  backend:
+  api:
     container_name: backend-container
     build: ./api
 
