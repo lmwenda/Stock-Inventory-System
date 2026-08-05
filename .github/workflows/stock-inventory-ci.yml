@@ -18,17 +18,22 @@ jobs:
       mysql:
         image: mysql:8.4
         env:
-          MYSQL_ROOT_PASSWORD: test_password  
+          MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: StockInventory
         ports:
           - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -ptest_password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     env:
-      HOST: ${{ vars.HOST }}
-      USER: ${{ vars.USER }}
-      DATABASE: ${{ vars.DATABASE }}
+      HOST: 127.0.0.1
+      USER: root
+      DATABASE: StockInventory
+      DB_PASSWORD: test_password
       JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
 
     defaults:
@@ -46,13 +51,18 @@ jobs:
 
       - name: Use compatible npm version
         run: npm install --global npm@11.6.1
-      - name: Install API Dependencies
+
+      - name: Install API dependencies
         run: npm ci
+
       - name: Initialise test database
-        run: mysql -h 127.0.0.1 -u root -password=test_password StockInventory < database/DatabaseSetup.sql
-      - name: Running Tests 
+        run: mysql --host=127.0.0.1 --user=root --password=test_password StockInventory < database/DatabaseSetup.sql
+
+      - name: Run tests
         run: npm test
-      - run: npm run build
+
+      - name: Build API
+        run: npm run build
 
   frontend:
     runs-on: ubuntu-latest
