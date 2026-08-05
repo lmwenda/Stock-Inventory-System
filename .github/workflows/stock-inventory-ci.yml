@@ -19,7 +19,7 @@ jobs:
         image: mysql:8.4
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: StockInventorySystem
+          MYSQL_DATABASE: StockInventory
         ports:
           - 3306:3306
         options: >-
