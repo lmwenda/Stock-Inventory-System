@@ -31,6 +31,8 @@ jobs:
         run: npm install --global npm@11.6.1
       - name: Install API Dependencies
         run: npm ci
+      - name: Running Tests 
+        run: npm test
       - run: npm run build
 
   frontend:
@@ -49,7 +51,10 @@ jobs:
           cache: npm
           cache-dependency-path: apps/frontend/package-lock.json
 
-      - run: npm ci
+      - name: Use compatible npm version
+        run: npm install --global npm@11.6.1
+      - name: Install API Dependencies
+        run: npm ci
       - run: npm test
       - run: npm run build
 
@@ -61,9 +66,15 @@ jobs:
 
       - name: Build Docker containers
         run: docker compose -f apps/docker-compose.yml build
+        env:
+          DATABASE: ${{ vars.DATABASE }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
 
       - name: Start containers
         run: docker compose -f apps/docker-compose.yml up -d
+        env:
+          DATABASE: ${{ vars.DATABASE }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
 
       - name: Check containers
         run: docker ps
@@ -71,3 +82,7 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose -f apps/docker-compose.yml down
+        env:
+          DATABASE: ${{ vars.DATABASE }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+
