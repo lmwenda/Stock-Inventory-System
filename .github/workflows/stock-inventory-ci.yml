@@ -22,11 +22,8 @@ jobs:
           MYSQL_DATABASE: StockInventory
         ports:
           - 3306:3306
-        volumes:
-          - mysql_data:/var/lib/mysql
-          - ./api/database/DatabaseSetup.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -ptest_password"
+          --health-cmd="mysqladmin ping -h localhost -${{secrets.DB_PASSWORD}}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
