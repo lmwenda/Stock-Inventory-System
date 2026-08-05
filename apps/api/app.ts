@@ -1,7 +1,6 @@
 import express, { Application } from "express";
 import cors from "cors";
 import "./database/connection";
-import { port } from "./utils/exportedVariables";
 import UserRoute from "./routes/UserRoutes";
 import UserController from "./controllers/UserController";
 import UserServices from "./services/UserServices";
@@ -15,7 +14,7 @@ import PaymentServices from "./services/PaymentServices";
 import PaymentController from "./controllers/PaymentController";
 import PaymentRepository from "./repositories/PaymentRepository";
 
-export const app: Application = express();
+const app: Application = express();
 
 // Middlewares & Dependency Injection 
 app.use(cors({
@@ -42,6 +41,4 @@ app.use("/api/users", UserRoute)
 app.use("/api/products", ProductRoutes);
 app.use("/api/payments", PaymentRoutes);
 
-// Listening Func
-
-app.listen(port, () => console.log(`Server running on https://localhost:${port}/`))
+export default app;
