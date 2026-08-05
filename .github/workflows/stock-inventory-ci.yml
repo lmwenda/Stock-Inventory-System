@@ -18,7 +18,7 @@ jobs:
       mysql:
         image: mysql:8.4
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: test_password  
           MYSQL_DATABASE: StockInventory
         ports:
           - 3306:3306
@@ -49,7 +49,7 @@ jobs:
       - name: Install API Dependencies
         run: npm ci
       - name: Initialise test database
-        run: mysql -h 127.0.0.1 -u ${{vars.USER }} -${{secrets.DB_PASSWORD}} StockInventory < database/DatabaseSetup.sql
+        run: mysql -h 127.0.0.1 -u root -test_password StockInventory < database/DatabaseSetup.sql
       - name: Running Tests 
         run: npm test
       - run: npm run build
