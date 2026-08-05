@@ -22,6 +22,9 @@ jobs:
           MYSQL_DATABASE: StockInventory
         ports:
           - 3306:3306
+        volumes:
+          - mysql_data:/var/lib/mysql
+          - ./api/database/DatabaseSetup.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
         options: >-
           --health-cmd="mysqladmin ping -h localhost -ptest_password"
           --health-interval=10s
@@ -53,6 +56,8 @@ jobs:
         run: npm install --global npm@11.6.1
       - name: Install API Dependencies
         run: npm ci
+      - name: Initialise test database
+        run: mysql -h 127.0.0.1 -u ${{vars.USER }} -${{secrets.DB_PASSWORD}} StockInventory < database/DatabaseSetup.sql
       - name: Running Tests 
         run: npm test
       - run: npm run build
