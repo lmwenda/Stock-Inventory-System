@@ -33,7 +33,7 @@ CREATE TABLE product(
 CREATE Table admin(
     UserID Int,
     AdminID Int AUTO_INCREMENT PRIMARY KEY,
-    FOREIGN KEY (UserID) REFERENCES user(UserID)
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
 CREATE TABLE Transaction(
@@ -44,5 +44,5 @@ CREATE TABLE Transaction(
     Currency VARCHAR(10) NOT NULL,
     status VARCHAR(50),
     CreatedAt DATE NOT NULL,
-    FOREIGN KEY(UserID) REFERENCES user(UserID)
+    FOREIGN KEY(UserID) REFERENCES User(UserID)
 );
