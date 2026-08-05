@@ -2,7 +2,7 @@ CREATE DATABASE stockinventory;
 
 USE stockinventory;
 
-CREATE TABLE user (
+CREATE TABLE User (
     UserID Int AUTO_INCREMENT PRIMARY KEY,
     FirstName VarChar(50) NOT NULL,
     LastName VarChar(50) NOT NULL ,
