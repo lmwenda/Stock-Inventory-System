@@ -1,6 +1,6 @@
-CREATE DATABASE stockinventory;
+CREATE DATABASE StockInventory;
 
-USE stockinventory;
+USE StockInventory;
 
 CREATE TABLE User (
     UserID Int AUTO_INCREMENT PRIMARY KEY,
