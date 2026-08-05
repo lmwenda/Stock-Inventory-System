@@ -33,7 +33,7 @@ jobs:
       USER: root
       DATABASE: StockInventory
       DB_PASSWORD: test_password
-      JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+      JWT_TOKEN: ${{ secrets.JWT_SECRET }}
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
 
     defaults:
