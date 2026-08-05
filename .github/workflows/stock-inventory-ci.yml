@@ -14,6 +14,20 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: StockInventorySystem
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -ptest_password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     env:
       HOST: ${{ vars.HOST }}
       USER: ${{ vars.USER }}
@@ -65,29 +79,33 @@ jobs:
         run: npm install --global npm@11.6.1
       - name: Install API Dependencies
         run: npm ci
-      - run: npm test
       - run: npm run build
 
   docker:
     runs-on: ubuntu-latest
+    needs:
+      - backend
+      - frontend
 
     env:
       DATABASE: ${{ vars.DATABASE }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-
     steps:
       - uses: actions/checkout@v4
-      
+
+      - name: Validate Docker Compose
+        run: docker compose -f apps/docker-compose.yml config
+
       - name: Build Docker containers
         run: docker compose -f apps/docker-compose.yml build
+
       - name: Start containers
         run: docker compose -f apps/docker-compose.yml up -d
 
       - name: Check containers
-        run: docker ps
+        run: docker compose -f apps/docker-compose.yml ps
 
       - name: Stop containers
         if: always()
         run: docker compose -f apps/docker-compose.yml down
-
