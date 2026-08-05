@@ -8,7 +8,7 @@ class UserRepository {
     public async create(body: TCreateUserValidation): Promise<UserDTO | null> {
 
         const [existing] = await pool.execute<RowDataPacket[]>(
-            "SELECT UserID FROM User WHERE Email = ?",
+            "SELECT UserID FROM `User` WHERE Email = ?",
             [body.Email]
         );
 
@@ -51,7 +51,7 @@ class UserRepository {
             _id = body.UserID;
  
             const [ result ] = await pool.execute<RowDataPacket[]>(
-                "SELECT * FROM User WHERE UserID=?",
+                "SELECT * FROM `User` WHERE UserID=?",
                 [
                     _id
                 ]
