@@ -14,6 +14,14 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
+    env:
+      HOST: ${{ vars.HOST }}
+      USER: ${{ vars.USER }}
+      DATABASE: ${{ vars.DATABASE }}
+      JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+
     defaults:
       run:
         working-directory: apps/api
@@ -37,6 +45,8 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }} 
 
     defaults:
       run:
@@ -61,20 +71,18 @@ jobs:
   docker:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE: ${{ vars.DATABASE }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Build Docker containers
         run: docker compose -f apps/docker-compose.yml build
-        env:
-          DATABASE: ${{ vars.DATABASE }}
-          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
-
       - name: Start containers
         run: docker compose -f apps/docker-compose.yml up -d
-        env:
-          DATABASE: ${{ vars.DATABASE }}
-          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
 
       - name: Check containers
         run: docker ps
@@ -82,7 +90,4 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose -f apps/docker-compose.yml down
-        env:
-          DATABASE: ${{ vars.DATABASE }}
-          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
 
