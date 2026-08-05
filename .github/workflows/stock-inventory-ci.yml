@@ -58,6 +58,15 @@ jobs:
       - name: Initialise test database
         run: mysql --host=127.0.0.1 --user=root --password=test_password StockInventory < database/DatabaseSetup.sql
 
+      - name: Verify test database
+        run: |
+          mysql \
+            --host=127.0.0.1 \
+            --user=root \
+            --password=test_password \
+            --database=StockInventory \
+            --execute="SHOW TABLES; DESCRIBE \`User\`;"
+
       - name: Run tests
         run: npm test
 
