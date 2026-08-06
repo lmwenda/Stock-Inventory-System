@@ -1,5 +1,6 @@
 import request = require("supertest");
-import { app } from "../app";
+import app from "../app";
+import pool from "../database/connection";
 
 describe("User Login System", () => {
     it("enter no password - validation system should kick in", async() => {
@@ -112,4 +113,8 @@ describe("User Registration System", () => {
         expect(createUser.status).toBe(200);
 
     })
+});
+
+afterAll(async () => {
+    await pool.end();
 });

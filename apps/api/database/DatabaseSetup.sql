@@ -1,48 +1,82 @@
-CREATE DATABASE stockinventory;
+CREATE DATABASE IF NOT EXISTS StockInventory;
 
-USE stockinventory;
+USE StockInventory;
 
-CREATE TABLE user (
-    UserID Int AUTO_INCREMENT PRIMARY KEY,
-    FirstName VarChar(50) NOT NULL,
-    LastName VarChar(50) NOT NULL ,
-    PhoneNumber Varchar(50) NOT NULL,
-    Email Varchar(50) NOT NULL,
-    Password Varchar(100) NOT NULL
+CREATE TABLE IF NOT EXISTS `User` (
+    UserID INT NOT NULL AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    PhoneNumber VARCHAR(50) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (UserID),
+    UNIQUE KEY unique_user_email (Email)
 );
 
-CREATE TABLE stock(
-    UserID Int NOT NULL,
-    ProductID Int NOT NULL,
-    Quantity Int NOT NULL
+CREATE TABLE IF NOT EXISTS product (
+    ProductID INT NOT NULL AUTO_INCREMENT,
+    SKU VARCHAR(50) NOT NULL,
+    ProductName VARCHAR(100) NOT NULL,
+    Description VARCHAR(500),
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2),
+    StockCount INT NOT NULL DEFAULT 0,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    Image VARCHAR(500),
+
+    PRIMARY KEY (ProductID),
+    UNIQUE KEY unique_product_sku (SKU)
 );
 
-CREATE TABLE product(
-    ProductID Int AUTO_INCREMENT PRIMARY KEY,
-    SKU Varchar(50) NOT NULL,
-    ProductName Varchar(100) NOT NULL,
-    Description Varchar(500),
-    Category VarChar(50),
-    Price Int, 
-    StockCount Int,
-    CreatedAt Date,
-    UpdatedAt Date,
-    Image Varchar(500) 
+CREATE TABLE IF NOT EXISTS stock (
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (UserID, ProductID),
+
+    CONSTRAINT fk_stock_user
+        FOREIGN KEY (UserID)
+        REFERENCES `User`(UserID)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_stock_product
+        FOREIGN KEY (ProductID)
+        REFERENCES product(ProductID)
+        ON DELETE CASCADE
 );
 
-CREATE Table admin(
-    UserID Int,
-    AdminID Int AUTO_INCREMENT PRIMARY KEY,
-    FOREIGN KEY (UserID) REFERENCES user(UserID)
+CREATE TABLE IF NOT EXISTS admin (
+    AdminID INT NOT NULL AUTO_INCREMENT,
+    UserID INT NOT NULL,
+
+    PRIMARY KEY (AdminID),
+    UNIQUE KEY unique_admin_user (UserID),
+
+    CONSTRAINT fk_admin_user
+        FOREIGN KEY (UserID)
+        REFERENCES `User`(UserID)
+        ON DELETE CASCADE
 );
 
-CREATE TABLE Transaction(
-    OrderID Int AUTO_INCREMENT PRIMARY KEY,
-    TransactionID VarChar(100),
-    UserID Int NOT NULL,
-    Amount Int NOT NULL,
+CREATE TABLE IF NOT EXISTS `Transaction` (
+    OrderID INT NOT NULL AUTO_INCREMENT,
+    TransactionID VARCHAR(100),
+    UserID INT NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
     Currency VARCHAR(10) NOT NULL,
-    status VARCHAR(50),
-    CreatedAt DATE NOT NULL,
-    FOREIGN KEY(UserID) REFERENCES user(UserID)
+    Status VARCHAR(50) NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (OrderID),
+    UNIQUE KEY unique_transaction_id (TransactionID),
+
+    CONSTRAINT fk_transaction_user
+        FOREIGN KEY (UserID)
+        REFERENCES `User`(UserID)
+        ON DELETE CASCADE
 );

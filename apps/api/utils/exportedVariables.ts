@@ -1,4 +1,4 @@
-export const port: number = 5000;
+export const port: number = Number(process.env.PORT) || 5000;
 
 // USER ROUTE URLS
 

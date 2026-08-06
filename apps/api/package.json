@@ -2,15 +2,15 @@
   "name": "api",
   "version": "1.0.0",
   "description": "Stock Inventory System API",
-  "main": "app.ts",
+  "main": "server.ts",
   "repository": "https://github.com/lmwenda/Stock-Inventory-System",
   "author": "lmwenda",
   "license": "MIT",
   "scripts": {
-    "start": "node ./build/app.js",
+    "start": "node ./build/server.js",
     "build": "tsc -p .",
     "test": "jest",
-    "dev": "nodemon ./app.ts"
+    "dev": "nodemon ./server.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
